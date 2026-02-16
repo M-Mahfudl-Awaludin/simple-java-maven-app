@@ -1,35 +1,24 @@
-pipeline {
-    agent any
+node {
 
-    tools {
-        jdk 'jdk17'
-        maven 'maven3'
+    // Set tools
+    def mvnHome = tool name: 'maven3', type: 'maven'
+    def jdkHome = tool name: 'jdk17', type: 'hudson.model.JDK'
+
+    env.PATH = "${jdkHome}/bin:${mvnHome}/bin:${env.PATH}"
+
+    stage('Checkout') {
+        checkout scm
     }
 
-    stages {
-
-        stage('Checkout') {
-            steps {
-                checkout scm
-            }
-        }
-
-        stage('Build') {
-            steps {
-                sh 'mvn clean package'
-            }
-        }
-
-        stage('Test') {
-            steps {
-                sh 'mvn test'
-            }
-        }
+    stage('Build') {
+        sh 'mvn clean package'
     }
 
-    post {
-        always {
-            junit '**/target/surefire-reports/*.xml'
-        }
+    stage('Test') {
+        sh 'mvn test'
+    }
+
+    stage('Post') {
+        junit '**/target/surefire-reports/*.xml'
     }
 }
