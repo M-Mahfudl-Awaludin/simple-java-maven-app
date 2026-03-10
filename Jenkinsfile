@@ -26,30 +26,28 @@ node {
     }
 
     stage('Deploy') {
-    
+
         withCredentials([string(credentialsId: 'hf-token', variable: 'HF_TOKEN')]) {
-    
+
             sh '''
             git config --global user.email "jenkins@local"
             git config --global user.name "jenkins"
-    
+
             rm -rf hf-space
-    
+
             git clone https://mahfudl26:$HF_TOKEN@huggingface.co/spaces/mahfudl26/java-cicd-app hf-space
-    
+
             cp Dockerfile hf-space/
             cp target/*.jar hf-space/
-    
+
             cd hf-space
             git add .
             git commit -m "Auto deploy from Jenkins"
             git push
             '''
         }
-    }
 
-    stage('Run 1 Minute') {
-        echo "Application running for 1 minute..."
+        echo "Waiting 1 minute after deploy..."
         sleep(time: 60, unit: 'SECONDS')
     }
 }
