@@ -1,104 +1,92 @@
-package todolist;
+package com.mycompany.app;
 
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
-public class ToDoList {
-    // Task class to represent each to-do item
-    static class Task {
-        String description;
-        boolean isDone;
+public class App {
 
-        Task(String description) {
-            this.description = description;
-            this.isDone = false;
-        }
+    public static void main(String[] args) throws InterruptedException {
 
-        @Override
-        public String toString() {
-            return (isDone ? "[✔] " : "[ ] ") + description;
-        }
-    }
+        // ANSI Colors
+        String RESET = "\u001B[0m";
+        String BOLD = "\u001B[1m";
+        String CYAN = "\u001B[36m";
+        String GREEN = "\u001B[32m";
+        String YELLOW = "\u001B[33m";
+        String PURPLE = "\u001B[35m";
+        String BLUE = "\u001B[34m";
+        String GRAY = "\u001B[90m";
 
-    // List to store tasks
-    static ArrayList<Task> tasks = new ArrayList<>();
-    static Scanner scanner = new Scanner(System.in);
+        String time = LocalDateTime.now()
+                .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-    public static void main(String[] args) {
-        int choice;
-        do {
-            printMenu();
-            choice = getIntInput("Choose an option: ");
-            switch (choice) {
-                case 1 -> addTask();
-                case 2 -> viewTasks();
-                case 3 -> markTaskCompleted();
-                case 4 -> deleteTask();
-                case 5 -> System.out.println("Goodbye!");
-                default -> System.out.println("Invalid option. Try again.");
-            }
-        } while (choice != 5);
-    }
+        String appName = "Java CI/CD DevOps App";
+        String version = "3.0.0";
+        String env = "Production";
 
-    private static void printMenu() {
-        System.out.println("\n== TO-DO LIST MENU ==");
-        System.out.println("1. Add a Task");
-        System.out.println("2. View All Tasks");
-        System.out.println("3. Mark Task as Completed");
-        System.out.println("4. Delete a Task");
-        System.out.println("5. Exit");
-    }
+        String javaVersion = System.getProperty("java.version");
+        String os = System.getProperty("os.name");
+        String user = System.getProperty("user.name");
 
-    private static void addTask() {
-        System.out.print("Enter task description: ");
-        String description = scanner.nextLine();
-        tasks.add(new Task(description));
-        System.out.println("Task added.");
-    }
+        // Banner
+        System.out.println(PURPLE + BOLD);
+        System.out.println("   ██╗ █████╗ ██╗   ██╗ █████╗ ");
+        System.out.println("   ██║██╔══██╗██║   ██║██╔══██╗");
+        System.out.println("   ██║███████║██║   ██║███████║");
+        System.out.println("██   ██║██╔══██║╚██╗ ██╔╝██╔══██║");
+        System.out.println("╚█████╔╝██║  ██║ ╚████╔╝ ██║  ██║");
+        System.out.println(" ╚════╝ ╚═╝  ╚═╝  ╚═══╝  ╚═╝  ╚═╝");
+        System.out.println(RESET);
 
-    private static void viewTasks() {
-        if (tasks.isEmpty()) {
-            System.out.println("Your to-do list is empty.");
-            return;
-        }
-        System.out.println("\nYour Tasks:");
-        for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + ". " + tasks.get(i));
-        }
-    }
+        System.out.println(CYAN + BOLD + "        DEVOPS CI/CD TERMINAL DASHBOARD");
+        System.out.println(GRAY + "==================================================" + RESET);
 
-    private static void markTaskCompleted() {
-        viewTasks();
-        if (tasks.isEmpty()) return;
-        int index = getIntInput("Enter task number to mark as completed: ") - 1;
-        if (index >= 0 && index < tasks.size()) {
-            tasks.get(index).isDone = true;
-            System.out.println("Task marked as completed.");
-        } else {
-            System.out.println("Invalid task number.");
-        }
-    }
+        // App Info
+        System.out.println(BLUE + BOLD + "\n📦 APPLICATION INFO" + RESET);
+        System.out.println(GRAY + "--------------------------------------------------");
+        System.out.println("App Name     : " + appName);
+        System.out.println("Version      : " + version);
+        System.out.println("Environment  : " + env);
+        System.out.println("Run Time     : " + time);
 
-    private static void deleteTask() {
-        viewTasks();
-        if (tasks.isEmpty()) return;
-        int index = getIntInput("Enter task number to delete: ") - 1;
-        if (index >= 0 && index < tasks.size()) {
-            tasks.remove(index);
-            System.out.println("Task deleted.");
-        } else {
-            System.out.println("Invalid task number.");
-        }
-    }
+        // System Info
+        System.out.println(PURPLE + BOLD + "\n🖥 SYSTEM INFO" + RESET);
+        System.out.println(GRAY + "--------------------------------------------------");
+        System.out.println("Java Version : " + javaVersion);
+        System.out.println("OS           : " + os);
+        System.out.println("User         : " + user);
 
-    private static int getIntInput(String message) {
-        System.out.print(message);
-        while (!scanner.hasNextInt()) {
-            System.out.print("Please enter a valid number: ");
-            scanner.next();
-        }
-        int input = scanner.nextInt();
-        scanner.nextLine(); // Consume the newline
-        return input;
+        // Pipeline Simulation
+        System.out.println(YELLOW + BOLD + "\n🚀 CI/CD PIPELINE STATUS" + RESET);
+        System.out.println(GRAY + "--------------------------------------------------");
+
+        System.out.print("🔧 Build Stage     ");
+        Thread.sleep(800);
+        System.out.println(GREEN + "✔ SUCCESS" + RESET);
+
+        System.out.print("🧪 Test Stage      ");
+        Thread.sleep(800);
+        System.out.println(GREEN + "✔ SUCCESS" + RESET);
+
+        System.out.print("📦 Package Stage   ");
+        Thread.sleep(800);
+        System.out.println(GREEN + "✔ SUCCESS" + RESET);
+
+        System.out.print("🚀 Deploy Stage    ");
+        Thread.sleep(800);
+        System.out.println(GREEN + "✔ SUCCESS" + RESET);
+
+        // Progress Bar
+        System.out.println("\n📊 Pipeline Progress");
+        System.out.println(GREEN + "[████████████████████████████████] 100%" + RESET);
+
+        // Output Message
+        System.out.println(CYAN + BOLD + "\n💬 APPLICATION OUTPUT" + RESET);
+        System.out.println(GRAY + "--------------------------------------------------");
+        System.out.println("Hello World! Application successfully deployed.");
+
+        // Final Status
+        System.out.println(GREEN + BOLD + "\n✅ STATUS : ALL PIPELINE STAGES COMPLETED");
+        System.out.println(GRAY + "==================================================" + RESET);
     }
 }
