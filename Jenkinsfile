@@ -26,18 +26,20 @@ node {
     }
 
     stage('Deploy') {
-
+    
         withCredentials([string(credentialsId: 'hf-token', variable: 'HF_TOKEN')]) {
-
+    
             sh '''
             git config --global user.email "jenkins@local"
             git config --global user.name "jenkins"
-
+    
+            rm -rf hf-space
+    
             git clone https://mahfudl26:$HF_TOKEN@huggingface.co/spaces/mahfudl26/java-cicd-app hf-space
-
+    
             cp Dockerfile hf-space/
             cp target/*.jar hf-space/
-
+    
             cd hf-space
             git add .
             git commit -m "Auto deploy from Jenkins"
